@@ -17,4 +17,6 @@ Imports: RSelenium,
     rvest,
     stringr,
     png,
-    xml2
+    xml2,
+    R6,
+    dplyr
