@@ -43,31 +43,39 @@
 NULL
 
 
-#' @importFrom RSelenium phantom remoteDriver startServer
+#' @importFrom RSelenium remoteDriver startServer
+#' @importFrom wdman phantomjs
 #'
 #' @export
 #'
 Bank <- R6Class(
   "bank",
   public = list(
-    initialize = function() {},
-    connect_driver = function(path_to_phantomjs = ""){
-      private$phantomjs <- phantom(pjs_cmd = path_to_phantomjs)
-      Sys.sleep(1)
-      private$remote_driver <- remoteDriver(browserName = 'phantomjs')
+    bank = NULL,
+    account_number = NULL,
+    password = NULL,
+    initialize = function(bank, account_number, password) {
+      self$bank <- tolower(bank)
+      self$account_number <- account_number
+      self$password <- password
+      self$connect_driver()
+    },
+    connect_driver = function(){
+      private$phantomjs <- phantomjs(port = 4444L, verbose = FALSE, check = FALSE)
+      private$remote_driver <- remoteDriver(browserName = "phantomjs", port = 4444L)
       private$remote_driver$open(silent = TRUE)
     },
     disonnect_driver = function() {
       private$remote_driver$close()
       private$phantomjs$stop()
     },
-    connect_bank = function(bank, account_number, password) {
-      switch(tolower(bank),
-             boursorama = connect_boursorama(private, account_number, password),
+    connect_bank = function() {
+      switch(self$bank,
+             boursorama = connect_boursorama(private$remote_driver, self$account_number, self$password),
              stop("Only boursorama is currently supported as bank."))
     },
-    get_balance = function(bank) {
-      switch(tolower(bank),
+    get_balance = function() {
+      switch(self$bank,
              boursorama = get_balance_boursorama(private$remote_driver),
              stop("Only boursorama is currently supported as bank."))
     }
