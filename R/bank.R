@@ -78,6 +78,11 @@ Bank <- R6Class(
       switch(self$bank,
              boursorama = get_balance_boursorama(private$remote_driver),
              stop("Only boursorama is currently supported as bank."))
+    },
+    get_operation = function(from = as.Date("2000-01-01"), to = Sys.Date(), by = "1 year") {
+      switch(self$bank,
+             boursorama = get_operations_boursorama(private$remote_driver, from, to, by),
+             stop("Only boursorama is currently supported as bank."))
     }
   ),
   private = list(
