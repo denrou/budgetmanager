@@ -17,7 +17,7 @@ get_balance_boursorama <- function(driver) {
   page_source %>%
     read_html() %>%
     html_nodes("table") %>%
-    html_table() %>%
+    html_table(fill = TRUE) %>%
     map_df(mutate_, .dots = list(i = "1:n()")) %>%
     filter_("i > 1") %>%
     select_("-i") %>%

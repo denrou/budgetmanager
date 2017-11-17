@@ -1,6 +1,6 @@
 Package: budgetmanager
 Title: Budget Manager for Personnal Application
-Version: 0.0.1.9002
+Version: 0.0.1.9003
 Date: 2017-11-17
 Authors@R: person("Denis", "Roussel", email = "deroussel@gmail.com", role = c("aut", "cre"))
 Description: This package is primarily developed to help me manage my budget.
