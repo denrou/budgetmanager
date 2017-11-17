@@ -67,7 +67,7 @@ connect_boursorama <- function(driver, account_number, password) {
     map(function(i) {
       x <- digits_boursorama_connexion %>%
         map(function(m) {
-          sum(i-m)
+          sum(i - m)
         }) %>%
         unlist
       # Indexes of the modele's images correspond to the number they represent.
