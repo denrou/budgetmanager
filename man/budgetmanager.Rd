@@ -6,4 +6,3 @@
 \description{
 This package is a personnal project to manage a budget
 }
-

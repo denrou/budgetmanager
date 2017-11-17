@@ -15,4 +15,3 @@ a data frame
 \description{
 Fetch from website the balance of every account registered
 }
-
