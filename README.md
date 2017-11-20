@@ -21,6 +21,8 @@ devtools::install_github("denrou/budgetmanager")
 
 This is a basic example to get some informations about your bank account.
 
+### Boursorama
+
 ``` r
 # First, a Bank object needs to be created with your credentials
 bank <- Bank$new("boursorama", my_account_number, my_password)
@@ -33,4 +35,17 @@ bank$get_balance()
 
 # Download operations from all your bank accounts from january 2010 to today
 bank$get_operations(from = as.Date("2010-01-01"), to = sys.Date(), by = "1 year")
+```
+
+### Crédit Agricole
+
+``` r
+# First, a Bank object needs to be created with your credentials
+bank <- Bank$new("credit_agricole", my_account_number, my_password, postal_code)
+
+# This method will connect to the bank website
+bank$connect_bank()
+
+# Fetch the balance of your bank accounts
+bank$get_balance()
 ```

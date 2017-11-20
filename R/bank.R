@@ -54,10 +54,12 @@ Bank <- R6Class(
     bank = NULL,
     account_number = NULL,
     password = NULL,
-    initialize = function(bank, account_number, password) {
+    postal_code = NULL,
+    initialize = function(bank, account_number, password, postal_code = NULL) {
       self$bank <- tolower(bank)
       self$account_number <- account_number
       self$password <- password
+      self$postal_code <- postal_code
       self$connect_driver()
     },
     connect_driver = function(){
@@ -72,12 +74,14 @@ Bank <- R6Class(
     connect_bank = function() {
       switch(self$bank,
              boursorama = connect_boursorama(private$remote_driver, self$account_number, self$password),
-             stop("Only boursorama is currently supported as bank."))
+             credit_agricole = connect_credit_agricole(private$remote_driver, self$account_number, self$password, self$postal_code),
+             stop("Only boursorama and credit_agricole are currently supported as bank."))
     },
     get_balance = function() {
       switch(self$bank,
              boursorama = get_balance_boursorama(private$remote_driver),
-             stop("Only boursorama is currently supported as bank."))
+             credit_agricole = get_balance_credit_agricole(private$remote_driver),
+             stop("Only boursorama and credit_agricole are currently supported as bank."))
     },
     get_operation = function(from = as.Date("2000-01-01"), to = Sys.Date(), by = "1 year") {
       switch(self$bank,
