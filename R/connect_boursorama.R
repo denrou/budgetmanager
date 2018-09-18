@@ -17,8 +17,8 @@
 #' @importFrom base64enc base64decode
 #' @importFrom plyr alply
 #' @importFrom purrr map map_chr map_int
-#' @importFrom rvest html_attrs html_nodes
-#' @importFrom stringr str_replace
+#' @importFrom rvest html_attr html_attrs html_nodes
+#' @importFrom stringr fixed str_replace
 #' @importFrom png readPNG
 #' @importFrom xml2 read_html
 #'
@@ -46,9 +46,9 @@ connect_boursorama <- function(driver, account_number, password) {
   image <- page_source %>%
     read_html() %>%
     html_nodes(".sasmap__key") %>%
-    html_nodes("img") %>%
-    html_attrs() %>%
-    str_replace("data:image/png;base64,", "") %>%
+    html_attr("style") %>%
+    str_replace(fixed("background-image: url(data:image/png;base64,"), "") %>%
+    str_replace(fixed("); -webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"), "") %>%
     map(base64decode) %>%
     map(readPNG) %>%
     # readPNG returns a 4 dimension array, each dimension being a color (+alpha)
